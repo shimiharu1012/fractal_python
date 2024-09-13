@@ -3,6 +3,7 @@
 
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib.animation as animation
 
 x_max=5
 x_min=-5
@@ -10,13 +11,28 @@ y_max=10
 y_min=0
 pixel=1000 #画素数
 
+fig,ax=plt.subplots()
+ax.set_xlim(x_min,x_max)
+ax.set_ylim(y_min,y_max)
 # 描画用データ
 data=np.zeros((pixel,pixel))
 
-# アニメーション機能を作りたい...
+
+# 画像モード or アニメーションモードを選択
+mode=input('mode: 0(image) 1(animation)')
+if mode=='0':
+    # 画像モード
+    print('image mode')
+    pass
+elif mode=='1':
+    # アニメーションモード
+    print('animation mode')
+    ims=[]
+
+
 
 [x,y]=[0.0,0.0]
-for i in range(1000000):
+for i in range(100):
     rand=np.random.rand()
     if rand<0.01:
         [[a,b],[c,d]]=[[0.,0.],[0.,0.16]]
@@ -36,8 +52,19 @@ for i in range(1000000):
     X=min(pixel-1,int(((x-x_min)/(x_max-x_min))*pixel))
     Y=-min(pixel-1,int(((y-y_min)/(y_max-y_min))*pixel))
     data[Y][X]=1
-    
 
+    if mode=='1':
+        print(f"frame{i+1} is OK")
+        im=ax.imshow(data,animated=True,cmap='Greens',extent=(x_min,x_max,y_min,y_max))
+        
+        plt.show()
+        input("waiting...")
+        ims.append([im])
+
+# ax.set_xlim=(x_min,x_max)
+# ax.set_ylim=(y_min,y_max)
+# ani=animation.ArtistAnimation(fig,ims,interval=100)
+# plt.show()
 plt.imshow(data, cmap='Greens',extent=(x_min,x_max,y_min,y_max))
 
 plt.grid(False)  # グリッド線を非表示
